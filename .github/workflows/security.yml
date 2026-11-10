@@ -2,32 +2,34 @@ name: Security
 
 on:
   pull_request:
-  workflow_dispatch‍:
+  workflow_dispatch:
 
 permissions:
-  contents: rea‌d
+  contents: read
 
-j‍obs:
-  code: 
-    name: Code‌ scan (Bandit)
-    runs-on: ubuntu‌-latest
-    continue-on-erro‌r: true
+jobs:
+  code:
+    name: Code scan (Bandit)
+    runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-‌      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install bandit
-        run: python‍ -m pip i‌nsta‍ll -‍- upgrade bandit
+        run: python -m pip install --upgrade bandit
       - name: Run bandit
         run: bandit -r . -f screen
 
   secrets:
-    name: Secr‍et scan
-     runs-o‍n: ubuntu-latest
+    name: Secret scan
+    runs-on: ubuntu-latest
     steps:
-      - u‌ses: actions/checkout‍@v4
-        with: 
-          fetch-depth:  0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Gitleaks
-        uses: git‌le‍aks/git‌leaks-a‌ction@v2
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
