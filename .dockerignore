@@ -5,3 +5,8 @@ __pycache__/
 db.sqlite3
 .env
 terraform/
+.venv
+.env
+preclass
+.ruff_cache
+.git
